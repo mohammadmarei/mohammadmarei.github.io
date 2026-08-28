@@ -250,40 +250,51 @@ document
 // ======================
 // FLOATING BACKGROUND
 // ======================
+// Fix: only rebuild the background gradient on pointer devices
+// that actually fire mousemove (desktop with a mouse). On touch
+// devices mousemove never fires, so the element used to stay
+// stuck with its very first (often mis-painted) CSS state until
+// a scroll/repaint happened to fix it. Mobile now relies purely
+// on the CSS "gradientShift" animation, which paints correctly
+// on load thanks to the transform:translateZ(0) hint in the CSS.
 
 const background =
 document.querySelector(".background-animation");
 
-let posX = 50;
-let posY = 50;
+if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
 
-window.addEventListener("mousemove", e => {
+    let posX = 50;
+    let posY = 50;
 
-    posX =
-        (e.clientX / window.innerWidth) * 100;
+    window.addEventListener("mousemove", e => {
 
-    posY =
-        (e.clientY / window.innerHeight) * 100;
+        posX =
+            (e.clientX / window.innerWidth) * 100;
 
-    background.style.background = `
-    radial-gradient(
-        circle at ${posX}% ${posY}%,
-        rgba(0,212,255,.15),
-        transparent 25%
-    ),
-    radial-gradient(
-        circle at 80% 30%,
-        rgba(255,255,255,.05),
-        transparent 25%
-    ),
-    radial-gradient(
-        circle at 50% 80%,
-        rgba(0,212,255,.08),
-        transparent 35%
-    ),
-    #000`;
+        posY =
+            (e.clientY / window.innerHeight) * 100;
 
-});
+        background.style.background = `
+        radial-gradient(
+            circle at ${posX}% ${posY}%,
+            rgba(0,212,255,.15),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 80% 30%,
+            rgba(255,255,255,.05),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 50% 80%,
+            rgba(0,212,255,.08),
+            transparent 35%
+        ),
+        #000`;
+
+    });
+
+}
 
 // ======================
 // CONTACT FORM DEMO
@@ -292,17 +303,21 @@ window.addEventListener("mousemove", e => {
 const form =
 document.querySelector(".contact-form");
 
-form.addEventListener("submit", e => {
+if (form) {
 
-    e.preventDefault();
+    form.addEventListener("submit", e => {
 
-    alert(
-        "Message Sent Successfully!"
-    );
+        e.preventDefault();
 
-    form.reset();
+        alert(
+            "Message Sent Successfully!"
+        );
 
-});
+        form.reset();
+
+    });
+
+}
 
 // ======================
 // HERO TEXT ANIMATION
@@ -350,7 +365,13 @@ galleryImages.forEach(img => {
 
     });
 
-});function openVideo(videoPath){
+});
+
+// ======================
+// PROJECT VIDEO MODAL
+// ======================
+
+function openVideo(videoPath){
 
     const modal =
     document.getElementById("videoModal");
