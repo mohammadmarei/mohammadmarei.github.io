@@ -55,10 +55,10 @@ body{
     z-index:-2;
 
     background:
-    radial-gradient(circle at 20% 20%,rgba(0,212,255,.12),transparent 25%),
-    radial-gradient(circle at 80% 30%,rgba(255,255,255,.06),transparent 25%),
-    radial-gradient(circle at 50% 80%,rgba(0,212,255,.08),transparent 30%),
-    var(--accent-gradient);
+    radial-gradient(circle at 20% 20%,rgba(0,212,255,.15),transparent 25%),
+    radial-gradient(circle at 80% 30%,rgba(255,77,109,.08),transparent 25%),
+    radial-gradient(circle at 50% 80%,rgba(0,255,157,.10),transparent 30%),
+    #000;
     background-size:300% 300%;
     animation:gradientShift 20s linear infinite;
 
